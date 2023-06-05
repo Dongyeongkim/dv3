@@ -1,0 +1,125 @@
+model:
+  enc:
+    # 1912.01603, page 14, Model components; 1803.10122, page 13, Appendix A.1, Figure 22 
+    dv1:
+      conv_channel: [32, 64, 128, 256]
+      conv_kernel: [4, 4, 4, 4] 
+      conv_stride: [1, 1, 1, 1]
+      conv_padding: [0, 0, 0, 0]
+      activation: ['relu', 'relu', 'relu', 'relu']
+    
+    # 2010.02193, page 3, Neural networks; 1912.01603, page 14, Model components; 1803.10122, page 13, Appendix A.1, Figure 22 
+    dv2:
+      conv_channel: [32, 64, 128, 256]
+      conv_kernel: [4, 4, 4, 4] 
+      conv_stride: [1, 1, 1, 1]
+      conv_padding: [0, 0, 0, 0]
+      activation: ['relu', 'relu', 'relu', 'relu']
+    
+    # 2301.04104, page 18, B. Model Sizes, Table B.1
+    dv3:
+      xs:
+        conv_channel: [24, 48, 96, 192]
+        conv_kernel: [3, 3, 3, 3]
+        conv_stride: [2, 2, 2, 2]
+        conv_padding: [1, 1, 1, 1]
+        activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
+      s:
+        conv_channel: [24, 48, 96, 192]
+        conv_kernel: [3, 3, 3, 3]
+        conv_stride: [2, 2, 2, 2]
+        conv_padding: [1, 1, 1, 1]
+        activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
+      m:
+        conv_channel: [24, 48, 96, 192]
+        conv_kernel: [3, 3, 3, 3]
+        conv_stride: [2, 2, 2, 2]
+        conv_padding: [1, 1, 1, 1]
+        activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
+      l:
+        conv_channel: [24, 48, 96, 192]
+        conv_kernel: [3, 3, 3, 3]
+        conv_stride: [2, 2, 2, 2]
+        conv_padding: [1, 1, 1, 1]
+        activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
+      xl:
+        conv_channel: [24, 48, 96, 192]
+        conv_kernel: [3, 3, 3, 3]
+        conv_stride: [2, 2, 2, 2]
+        conv_padding: [1, 1, 1, 1]
+        activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
+    
+  dec:
+    # 1912.01603, page 14, Model components; 1803.10122, page 13, Appendix A.1, Figure 22 
+    dv1:
+      deconv_channel: [128, 64, 32, 3]
+      deconv_kernel: [5, 5, 6, 6]
+      deconv_stride: [1, 1, 1, 1]
+      deconv_padding: [0, 0, 0, 0]
+      activation: ['relu', 'relu', 'relu', 'sigmoid']
+    
+    # 2010.02193, page 3, Neural networks; 1912.01603, page 14, Model components; 1803.10122, page 13, Appendix A.1, Figure 22 
+    dv2:
+      deconv_channel: [128, 64, 32, 3]
+      deconv_kernel: [5, 5, 6, 6]
+      deconv_stride: [1, 1, 1, 1]
+      deconv_padding: [0, 0, 0, 0]
+      activation: ['relu', 'relu', 'relu', 'sigmoid']
+
+    # 2301.04104, page 18, B. Model Sizes, Table B.1; https://github.com/danijar/dreamerv3/blob/423291a9875bb9af43b6db7150aaa972ba889266/dreamerv3/nets.py#L400
+    dv3:
+      xs:
+        deconv_channel: [192, 96, 48, 24]
+        deconv_kernel: [3, 3, 3, 3]
+        deconv_stride: [2, 2, 2, 2]
+        deconv_padding: [1, 1, 1, 1]
+        activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
+      s:
+        deconv_channel: [192, 96, 48, 24]
+        deconv_kernel: [3, 3, 3, 3]
+        deconv_stride: [2, 2, 2, 2]
+        deconv_padding: [1, 1, 1, 1]
+        activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
+
+      m:
+        deconv_channel: [192, 96, 48, 24]
+        deconv_kernel: [3, 3, 3, 3]
+        deconv_stride: [2, 2, 2, 2]
+        deconv_padding: [1, 1, 1, 1]
+        activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
+
+      l:
+        deconv_channel: [192, 96, 48, 24]
+        deconv_kernel: [3, 3, 3, 3]
+        deconv_stride: [2, 2, 2, 2]
+        deconv_padding: [1, 1, 1, 1]
+        activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
+
+      xl:
+        deconv_channel: [192, 96, 48, 24]
+        deconv_kernel: [3, 3, 3, 3]
+        deconv_stride: [2, 2, 2, 2]
+        deconv_padding: [1, 1, 1, 1]
+        activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
+  
+  rssm:
+    dv1:
+      gru_recurrent_units: 200
+    dv2:
+      gru_recurrent_units: 600
+    dv3:
+      xs:
+        gru_recurrent_units: 256
+      s:
+        gru_recurrent_units: 512
+      m:
+        gru_recurrent_units: 1024
+      l:
+        gru_recurrent_units: 2048
+      xl:
+        gru_recurrent_units: 4096
+        
+
+
+    
+    
