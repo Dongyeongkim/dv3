@@ -95,7 +95,6 @@ class Decoder(nn.Module):
                              kernel_size=kernels[-1], stride=strides[-1], padding=paddings[-1], output_padding=paddings[-1]))
         shp = deconv_shape_calc(shp, kernel_size=kernels[-1], stride_size=strides[-1], padding_size=paddings[-1],
                                  output_padding_size=paddings[-1])
-        print(shp)
 
         dec.extend(return_func_from_name(activations[-1], ch=channels[-1], sh=shp))
 
