@@ -29,28 +29,28 @@ model:
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
       s:
         in_channel: 1
-        conv_channel: [24, 48, 96, 192]
+        conv_channel: [32, 64, 128, 256]
         conv_kernel: [3, 3, 3, 3]
         conv_stride: [2, 2, 2, 2]
         conv_padding: [1, 1, 1, 1]
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
       m:
         in_channel: 1
-        conv_channel: [24, 48, 96, 192]
+        conv_channel: [48, 96, 192, 384]
         conv_kernel: [3, 3, 3, 3]
         conv_stride: [2, 2, 2, 2]
         conv_padding: [1, 1, 1, 1]
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
       l:
         in_channel: 1
-        conv_channel: [24, 48, 96, 192]
+        conv_channel: [64, 128, 256, 512]
         conv_kernel: [3, 3, 3, 3]
         conv_stride: [2, 2, 2, 2]
         conv_padding: [1, 1, 1, 1]
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
       xl:
         in_channel: 1
-        conv_channel: [24, 48, 96, 192]
+        conv_channel: [96, 192, 384, 768]
         conv_kernel: [3, 3, 3, 3]
         conv_stride: [2, 2, 2, 2]
         conv_padding: [1, 1, 1, 1]
@@ -86,7 +86,7 @@ model:
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
       s:
         out_channel: 1
-        deconv_channel: [192, 96, 48, 24]
+        deconv_channel: [256, 128, 64, 32]
         deconv_kernel: [3, 3, 3, 3]
         deconv_stride: [2, 2, 2, 2]
         deconv_padding: [1, 1, 1, 1]
@@ -94,7 +94,7 @@ model:
 
       m:
         out_channel: 1
-        deconv_channel: [192, 96, 48, 24]
+        deconv_channel: [384, 192, 96, 48]
         deconv_kernel: [3, 3, 3, 3]
         deconv_stride: [2, 2, 2, 2]
         deconv_padding: [1, 1, 1, 1]
@@ -102,7 +102,7 @@ model:
 
       l:
         out_channel: 1
-        deconv_channel: [192, 96, 48, 24]
+        deconv_channel: [512, 256, 128, 64]
         deconv_kernel: [3, 3, 3, 3]
         deconv_stride: [2, 2, 2, 2]
         deconv_padding: [1, 1, 1, 1]
@@ -110,7 +110,7 @@ model:
 
       xl:
         out_channel: 1
-        deconv_channel: [192, 96, 48, 24]
+        deconv_channel: [768, 384, 192, 96]
         deconv_kernel: [3, 3, 3, 3]
         deconv_stride: [2, 2, 2, 2]
         deconv_padding: [1, 1, 1, 1]

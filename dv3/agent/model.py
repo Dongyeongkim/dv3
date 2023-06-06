@@ -60,7 +60,6 @@ class Encoder(nn.Module):
             enc.extend(return_func_from_name(activations[i+1], ch=channels[i+1], it=i+1))
         
         self.enc = nn.Sequential(*enc)
-
     def forward(self, x):
         return self.enc(x)
 
@@ -95,9 +94,10 @@ class RewardPredictor(nn.Module):
         super().__init__(*args, **kwargs)
         pass
 
-class ContinuePredictor(nn.Module):
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+
+class DiscountPredictor(nn.Module):
+    def __init__(self, mode):
+        super().__init__()
         pass
 
 
@@ -138,7 +138,7 @@ if __name__ == "__main__":
     
     dv1_enc_conf = conf['model']['enc']['dv1']
     dv2_enc_conf = conf['model']['enc']['dv2']
-    dv3_enc_conf = conf['model']['enc']['dv3']['m']
+    dv3_enc_conf = conf['model']['enc']['dv3']['xl']
 
     dv1Enc = Encoder(*dv1_enc_conf.values())
     dv2Enc = Encoder(*dv2_enc_conf.values())
@@ -150,7 +150,7 @@ if __name__ == "__main__":
 
     dv1_dec_conf = conf['model']['dec']['dv1']
     dv2_dec_conf = conf['model']['dec']['dv2']
-    dv3_dec_conf = conf['model']['dec']['dv3']['m']
+    dv3_dec_conf = conf['model']['dec']['dv3']['xl']
 
     dv1Dec = Decoder(*dv1_dec_conf.values())
     dv2Dec = Decoder(*dv2_dec_conf.values())
