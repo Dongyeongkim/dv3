@@ -1,8 +1,6 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
-# Return proper activation functions 
 
 class Addition(nn.Module):
     def __init__(self, add_val):
@@ -11,7 +9,9 @@ class Addition(nn.Module):
     def forward(self, x):
         return x + self.add_val
 
-def return_func_from_name(name: str or int, ch: int, it: int):
+# Return proper activation functions 
+
+def return_func_from_name(name: str or int or float, ch: int, it: int):
 
     if name == 'relu':
         return [nn.ReLU()]
@@ -22,7 +22,7 @@ def return_func_from_name(name: str or int, ch: int, it: int):
     elif name == 'layernorm+silu':
         return [nn.LayerNorm([ch, 2**(5-it), 2**(5-it)]), nn.SiLU()]
     
-    elif name == 0.5:
+    elif ((type(name) == int) or (type(name) == float)):
         return [Addition(name)]
     
     else:
@@ -42,7 +42,7 @@ class GRU_ln_Cell(nn.Module):
         rh, zh, nh = torch.chunk(self.hh(h), 3, dim=1)
         r = torch.sigmoid(self.ln_r(ri+rh))
         z = torch.sigmoid(self.ln_z(zi+zh))
-        n = torch.tanh(ni+r*nh)
+        n = torch.tanh(self.ln_n(ni+r*nh))
         return (1-z)*n + z*h
 
 
@@ -125,7 +125,10 @@ if __name__ == "__main__":
     print(return_func_from_name('sigmoid', 32, 3))
     print(return_func_from_name('layernorm+silu', 32, 3))
     print(return_func_from_name(0.5, 32, 3))
-    # print(return_func_from_name('relux', 32, 3))
+    try:
+        print(return_func_from_name('relux', 32, 3))
+    except NotImplementedError:
+        print("Checked that showing NotImplementedError properly")
 
     # Check encoders
 
@@ -137,19 +140,24 @@ if __name__ == "__main__":
     dv2_enc_conf = conf['model']['enc']['dv2']
     dv3_enc_conf = conf['model']['enc']['dv3']['m']
 
-    dv1Enc = Encoder(1, *dv1_enc_conf.values())
-    dv2Enc = Encoder(1, *dv2_enc_conf.values())
-    dv3Enc = Encoder(1, *dv3_enc_conf.values())
+    dv1Enc = Encoder(*dv1_enc_conf.values())
+    dv2Enc = Encoder(*dv2_enc_conf.values())
+    dv3Enc = Encoder(*dv3_enc_conf.values())
 
     print(dv1Enc, dv2Enc, dv3Enc)
+    
     # Check decoders 
 
     dv1_dec_conf = conf['model']['dec']['dv1']
     dv2_dec_conf = conf['model']['dec']['dv2']
     dv3_dec_conf = conf['model']['dec']['dv3']['m']
 
-    dv1Dec = Decoder(1, *dv1_dec_conf.values())
-    dv2Dec = Decoder(1, *dv2_dec_conf.values())
-    dv3Dec = Decoder(1, *dv3_dec_conf.values())
+    dv1Dec = Decoder(*dv1_dec_conf.values())
+    dv2Dec = Decoder(*dv2_dec_conf.values())
+    dv3Dec = Decoder(*dv3_dec_conf.values())
 
     print(dv1Dec, dv2Dec, dv3Dec)
+
+    test_input = torch.randn(32, 1, 64, 64)
+    dv1_er, dv2_er, dv3_er = dv1Enc(test_input), dv2Enc(test_input), dv3Enc(test_input)
+    print(dv1_er.shape, dv2_er.shape, dv3_er.shape)

@@ -2,47 +2,54 @@ model:
   enc:
     # 1912.01603, page 14, Model components; 1803.10122, page 13, Appendix A.1, Figure 22 
     dv1:
+      in_channel: 1
       conv_channel: [32, 64, 128, 256]
       conv_kernel: [4, 4, 4, 4] 
-      conv_stride: [1, 1, 1, 1]
+      conv_stride: [2, 2, 2, 2]
       conv_padding: [0, 0, 0, 0]
       activation: ['relu', 'relu', 'relu', 'relu']
     
     # 2010.02193, page 3, Neural networks; 1912.01603, page 14, Model components; 1803.10122, page 13, Appendix A.1, Figure 22 
     dv2:
+      in_channel: 1
       conv_channel: [32, 64, 128, 256]
       conv_kernel: [4, 4, 4, 4] 
-      conv_stride: [1, 1, 1, 1]
+      conv_stride: [2, 2, 2, 2]
       conv_padding: [0, 0, 0, 0]
       activation: ['relu', 'relu', 'relu', 'relu']
     
     # 2301.04104, page 18, B. Model Sizes, Table B.1
     dv3:
       xs:
+        in_channel: 1
         conv_channel: [24, 48, 96, 192]
         conv_kernel: [3, 3, 3, 3]
         conv_stride: [2, 2, 2, 2]
         conv_padding: [1, 1, 1, 1]
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
       s:
+        in_channel: 1
         conv_channel: [24, 48, 96, 192]
         conv_kernel: [3, 3, 3, 3]
         conv_stride: [2, 2, 2, 2]
         conv_padding: [1, 1, 1, 1]
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
       m:
+        in_channel: 1
         conv_channel: [24, 48, 96, 192]
         conv_kernel: [3, 3, 3, 3]
         conv_stride: [2, 2, 2, 2]
         conv_padding: [1, 1, 1, 1]
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
       l:
+        in_channel: 1
         conv_channel: [24, 48, 96, 192]
         conv_kernel: [3, 3, 3, 3]
         conv_stride: [2, 2, 2, 2]
         conv_padding: [1, 1, 1, 1]
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 'layernorm+silu']
       xl:
+        in_channel: 1
         conv_channel: [24, 48, 96, 192]
         conv_kernel: [3, 3, 3, 3]
         conv_stride: [2, 2, 2, 2]
@@ -52,6 +59,7 @@ model:
   dec:
     # 1912.01603, page 14, Model components; 1803.10122, page 13, Appendix A.1, Figure 22 
     dv1:
+      out_channel: 1
       deconv_channel: [128, 64, 32, 3]
       deconv_kernel: [5, 5, 6, 6]
       deconv_stride: [1, 1, 1, 1]
@@ -60,6 +68,7 @@ model:
     
     # 2010.02193, page 3, Neural networks; 1912.01603, page 14, Model components; 1803.10122, page 13, Appendix A.1, Figure 22 
     dv2:
+      out_channel: 1
       deconv_channel: [128, 64, 32, 3]
       deconv_kernel: [5, 5, 6, 6]
       deconv_stride: [1, 1, 1, 1]
@@ -69,12 +78,14 @@ model:
     # 2301.04104, page 18, B. Model Sizes, Table B.1; https://github.com/danijar/dreamerv3/blob/423291a9875bb9af43b6db7150aaa972ba889266/dreamerv3/nets.py#L400
     dv3:
       xs:
+        out_channel: 1
         deconv_channel: [192, 96, 48, 24]
         deconv_kernel: [3, 3, 3, 3]
         deconv_stride: [2, 2, 2, 2]
         deconv_padding: [1, 1, 1, 1]
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
       s:
+        out_channel: 1
         deconv_channel: [192, 96, 48, 24]
         deconv_kernel: [3, 3, 3, 3]
         deconv_stride: [2, 2, 2, 2]
@@ -82,6 +93,7 @@ model:
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
 
       m:
+        out_channel: 1
         deconv_channel: [192, 96, 48, 24]
         deconv_kernel: [3, 3, 3, 3]
         deconv_stride: [2, 2, 2, 2]
@@ -89,6 +101,7 @@ model:
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
 
       l:
+        out_channel: 1
         deconv_channel: [192, 96, 48, 24]
         deconv_kernel: [3, 3, 3, 3]
         deconv_stride: [2, 2, 2, 2]
@@ -96,6 +109,7 @@ model:
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
 
       xl:
+        out_channel: 1
         deconv_channel: [192, 96, 48, 24]
         deconv_kernel: [3, 3, 3, 3]
         deconv_stride: [2, 2, 2, 2]
