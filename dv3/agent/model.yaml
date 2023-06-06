@@ -103,22 +103,81 @@ model:
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
   
   rssm:
+    
     dv1:
+      # 1912.01603, page 2, Latent dynamics
+      discrete: False
+
+      # 2010.02193, page 18, C. Summary of Modifications
+      use_layer_norm: False
+      
+      # 1912.01603, page 14, Model components; 1811.04551, page 12, A. Hyper Parameters
       gru_recurrent_units: 200
+    
+    
     dv2:
+      # 2010.02193, page 1, Abstract
+      discrete: True
+      
+      # 2010.02193, page 18, C. Summary of Modifications
+      use_layer_norm: True
+      
+      # 2010.02193, page 19, D. Hyper Parameters
       gru_recurrent_units: 600
+      
     dv3:
       xs:
-        gru_recurrent_units: 256
-      s:
-        gru_recurrent_units: 512
-      m:
-        gru_recurrent_units: 1024
-      l:
-        gru_recurrent_units: 2048
-      xl:
-        gru_recurrent_units: 4096
+        # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
+        discrete: True
+
+        # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
+        use_layer_norm: True
         
+        # 2301.04104, page 18, B. Model Sizes, Table B.1
+        gru_recurrent_units: 256
+
+      s:
+        # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
+        discrete: True
+        
+        # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
+        use_layer_norm: True
+        
+        # 2301.04104, page 18, B. Model Sizes, Table B.1
+        gru_recurrent_units: 512
+
+      m:
+        # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
+        discrete: True
+
+        # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
+        use_layer_norm: True
+        
+        # 2301.04104, page 18, B. Model Sizes, Table B.1
+        gru_recurrent_units: 1024
+
+      l:
+        # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
+        discrete: True
+        
+        # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
+        use_layer_norm: True
+        
+        # 2301.04104, page 18, B. Model Sizes, Table B.1
+        gru_recurrent_units: 2048
+
+      xl:
+        # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
+        discrete: True
+
+        # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
+        use_layer_norm: True
+        
+        # 2301.04104, page 18, B. Model Sizes, Table B.1
+        gru_recurrent_units: 4096
+  
+  others:
+    
 
 
     
