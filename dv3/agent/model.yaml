@@ -130,11 +130,13 @@ model:
         deconv_padding: [1, 1, 1, 1]
         activation: ['layernorm+silu', 'layernorm+silu', 'layernorm+silu', 0.5]
   
-  rssm:
+  seq:
     
     dv1:
       # 1912.01603, page 2, Latent dynamics
       discrete: False
+
+      latent_dim: 30
 
       # 2010.02193, page 18, C. Summary of Modifications
       use_layer_norm: False
@@ -146,6 +148,8 @@ model:
     dv2:
       # 2010.02193, page 1, Abstract
       discrete: True
+
+      latent_dim: 32
       
       # 2010.02193, page 18, C. Summary of Modifications
       use_layer_norm: True
@@ -158,6 +162,8 @@ model:
         # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
         discrete: True
 
+        latent_dim: 32
+
         # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
         use_layer_norm: True
         
@@ -167,6 +173,8 @@ model:
       s:
         # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
         discrete: True
+
+        latent_dim: 32
         
         # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
         use_layer_norm: True
@@ -178,6 +186,8 @@ model:
         # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
         discrete: True
 
+        latent_dim: 32
+
         # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
         use_layer_norm: True
         
@@ -187,6 +197,8 @@ model:
       l:
         # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
         discrete: True
+
+        latent_dim: 32
         
         # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
         use_layer_norm: True
@@ -198,13 +210,91 @@ model:
         # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
         discrete: True
 
+        latent_dim: 32
+
         # 2301.04104, page 19, C. Summary of Differences; 2010.02193, page 18, C. Summary of Modifications
         use_layer_norm: True
         
         # 2301.04104, page 18, B. Model Sizes, Table B.1
         gru_recurrent_units: 4096
   
-  others:
+  dyn:
+    dv1:
+      num_units: [200, 200]
+      activation: ['relu', 'relu']
+    dv2:
+      num_units: [400, 400, 400, 400]
+      activation: ['elu', 'elu', 'elu', 'elu']
+    dv3:
+      xs:
+        num_units: [256]
+        activation: ['layernorm(mlp)+silu']
+      s:
+        num_units: [512, 512]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+      m:
+        num_units: [640, 640, 640]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+      l:
+        num_units: [768, 768, 768, 768]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+      xl:
+        num_units: [1024, 1024, 1024, 1024, 1024]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+
+
+
+  re:
+    dv1:
+      num_units: [200, 200]
+      activation: ['relu', 'relu']
+    dv2:
+      num_units: [400, 400, 400, 400]
+      activation: ['elu', 'elu', 'elu', 'elu']
+    dv3:
+      xs:
+        num_units: [256]
+        activation: ['layernorm(mlp)+silu']
+      s:
+        num_units: [512, 512]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+      m:
+        num_units: [640, 640, 640]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+      l:
+        num_units: [768, 768, 768, 768]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+      xl:
+        num_units: [1024, 1024, 1024, 1024, 1024]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+
+  dis:
+    dv1:
+      num_units: [200, 200]
+      activation: ['relu', 'relu']
+    dv2:
+      num_units: [400, 400, 400, 400]
+      activation: ['elu', 'elu', 'elu', 'elu']
+    dv3:
+      xs:
+        num_units: [256]
+        activation: ['layernorm(mlp)+silu']
+      s:
+        num_units: [512, 512]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+      m:
+        num_units: [640, 640, 640]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+      l:
+        num_units: [768, 768, 768, 768]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+      xl:
+        num_units: [1024, 1024, 1024, 1024, 1024]
+        activation: ['layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu', 'layernorm(mlp)+silu']
+
+
+
+
     
 
 
