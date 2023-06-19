@@ -156,12 +156,59 @@ class DiscountPredictor(nn.Module):
     
     def forward(self, x):
         return self.dipre(x)
+    
+
+
+class ContinuousSequenceModel(nn.Module):
+    def __init__(self, input_shape: int, output_shape: int, latent_dim: int, use_layer_norm: bool, gru_recurrent_units: bool):
+        super().__init__()
+
+        
+        self._mu = nn.Linear(input_shape, latent_dim)
+        self._sig = nn.Linear(input_shape, latent_dim)
+        self._out = nn.Linear(gru_recurrent_units, output_shape)
+
+        if use_layer_norm:
+            self.gruCell = nn.GRUCell(input_size=latent_dim, hidden_size=gru_recurrent_units)
+        else:
+            self.gruCell = GRU_ln_Cell(input_dim=latent_dim, hidden_dim=gru_recurrent_units)
+        
+    def forward(self, x, h):
+        std = self._sig(x)
+        z = self._mu(x) + std*torch.randn_like(std)
+        h = self.gruCell(z, h)
+        out = self._out(h)
+        return out, h
+
+class DiscreteSequenceModel(nn.Module):
+    def __init__(self, input_shape: int, output_shape: int, latent_dim: int, use_layer_norm: bool, gru_recurrent_units: bool):
+        super().__init__()
+
+        self.codebook = torch.eye(latent_dim)
+
+        if use_layer_norm:
+            self.gruCell = nn.GRUCell(input_size=latent_dim, hidden_size=gru_recurrent_units)
+        else:
+            self.gruCell = GRU_ln_Cell(input_dim=latent_dim, hidden_dim=gru_recurrent_units)
+    
+    def forward(self, x, h):
+        pass
 
 
 class SequenceModel(nn.Module):
-    def __init__(self, discrete: bool, latent_dim: int, use_layer_norm: bool, gru_recurrent_units: bool):
+    def __init__(self, input_shape: int, output_shape: int, discrete: bool, latent_dim: int, use_layer_norm: bool, gru_recurrent_units: bool):
         super().__init__()
-        pass
+        
+        if discrete:
+            self.seq = DiscreteSequenceModel(input_shape, output_shape, latent_dim, use_layer_norm, gru_recurrent_units)
+        else:
+            self.seq = ContinuousSequenceModel(input_shape, output_shape, latent_dim, use_layer_norm, gru_recurrent_units)
+    
+    def forward(self, x, h):
+        return self.seq(x, h)
+
+
+            
 
 
 
